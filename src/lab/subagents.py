@@ -14,4 +14,41 @@ def get_subagents() -> list[dict]:
       "system_prompt": chỉ dẫn cho subagent
     Gợi ý vai trò: explorer (đọc và báo cáo), implementer (thực hiện), reviewer (kiểm tra độc lập).
     """
-    raise NotImplementedError("TODO: cài đặt get_subagents (xem guides/pseudocode/02_subagents.md)")
+    return [
+        {
+            "name": "explorer",
+            "description": (
+                "Use proactively to inspect workspace files, read task specifications, READMEs, "
+                "docstrings, schemas, and sample input/output data. Reports objective findings without modifying files."
+            ),
+            "system_prompt": (
+                "You are an exploration subagent. Inspect the workspace, read specifications, data files, and logs, "
+                "and return a clear, structured summary of what exists and any rules or constraints found. "
+                "Do not modify or create any files."
+            ),
+        },
+        {
+            "name": "implementer",
+            "description": (
+                "Use to make focused code changes, clean data files, process log records, or run tests and helper scripts. "
+                "Reports what was changed and the test/script execution outcomes."
+            ),
+            "system_prompt": (
+                "You are an implementation subagent. Make code modifications, clean tabular data, parse logs, or run "
+                "scripts according to the exact instructions and rules given to you. Run tests via the shell to verify, "
+                "and report exactly what you changed and test results."
+            ),
+        },
+        {
+            "name": "reviewer",
+            "description": (
+                "Use to independently verify the solution, check outputs against all prompt requirements and edge cases, "
+                "and validate file contents and formatting before reporting completion."
+            ),
+            "system_prompt": (
+                "You are a review subagent. Independently inspect the solution, verify output files exist and meet all "
+                "schema and convention requirements, check for edge cases, and report any discrepancies or confirmation "
+                "without modifying files."
+            ),
+        },
+    ]
